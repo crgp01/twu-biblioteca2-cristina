@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mutations>
+<mutation detected='false' status='NO_COVERAGE'><sourceFile>BibliotecaApp.java</sourceFile><mutatedClass>com.twu.biblioteca.BibliotecaApp</mutatedClass><mutatedMethod>main</mutatedMethod><methodDescription>([Ljava/lang/String;)V</methodDescription><lineNumber>6</lineNumber><mutator>org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator</mutator><index>5</index><killingTest/></mutation>
+</mutations>
