@@ -1,9 +1,5 @@
 package com.twu.biblioteca;
 
-import com.twu.biblioteca.Biblioteca;
-import com.twu.biblioteca.Message;
-
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,7 +14,6 @@ public class BibliotecaApp {
     private PrintStream printStream;
 
 
-
     public BibliotecaApp(PrintStream printStream, Biblioteca biblioteca, Menu menu, BufferedReader bufferedReader) {
         this.printStream = printStream;
         this.biblioteca = biblioteca;
@@ -30,80 +25,119 @@ public class BibliotecaApp {
     public void run() {
         printStream.println(Message.WELCOME);
         printStream.println(menu.getMenu());
+        String option = "";
 
-        menuOptions();
+        option = readOptions();
+        menuOptions(option);
+
     }
 
-    public void menuOptions() {
+    private void menuOptions(String option) {
+        option = option == null ? "" : option;
 
-        try {
-            String option = bufferedReader.readLine();
-            option = option == null ? "" : option;
-            switch (option) {
-                case "0":
-                    bufferedReader = null;
-                    break;
+            try {
+                    switch (option) {
+                        case "0":
+                            break;
 
-                case "1":
+                        case "1":
+                            printBookList();
+                            break;
 
-                    ArrayList<Book> books = biblioteca.getListBook(false);
-                    for (Book book : books) {
-                        printStream.println(book);
+                        case "2":
+                            checkOutBook();
+                            break;
+                        case "3":
+                            returnBook();
+                            break;
+
+                        case "4":
+                            printMovieList();
+                            break;
+                        case "5":
+                            checkOutMovie();
+                            break;
+
+                        default:
+                            printInvalidOption();
+                            break;
                     }
 
-                    break;
-
-                case "2":
-                    String title = bufferedReader.readLine();
-
-                    if (biblioteca.checkoutBook(title)) {
-                        printStream.println(Message.CHECKOUT_BOOK);
-                    } else {
-
-                        printStream.println(Message.UNSUCCESSFUL_BOOK_CHECKOUT);
-
-                    }
-                    break;
-                case "3":
-                    if (biblioteca.returnBook(bufferedReader.readLine(), "1")) {
-                        printStream.println(Message.SUCCESSFUL_RETURN);
-                    } else {
-                        printStream.println(Message.UNSUCCESSFUL_RETURN);
-                    }
-                    break;
-
-                case "4":
-                    ArrayList<Movie> movies = biblioteca.getListMovies(false);
-                    for (Movie movie : movies) {
-                        printStream.println(movie);
-                    }
-
-                case "5":
-                    String name = bufferedReader.readLine();
-
-                    if (biblioteca.checkoutMovie(name)) {
-                        printStream.println(Message.CHECKOUT_MOVIE);
-                    } else {
-
-                        printStream.println(Message.UNSUCCESSFUL_MOVIE_CHECKOUT);
-
-                    }
-                    break;
-
-                default:
-                    printStream.println(Message.INVALID_OPTION);
-                    break;
-
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+    }
+
+    private String readOptions() {
+        try {
+            return bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
+            return "";
         }
+    }
+
+    private void printInvalidOption() {
+        printStream.println(Message.INVALID_OPTION);
+    }
+
+    private void returnBook() throws IOException {
+
+            if (biblioteca.returnBook(bufferedReader.readLine(), "1")) {
+                printStream.println(Message.SUCCESSFUL_RETURN);
+            } else {
+                printStream.println(Message.UNSUCCESSFUL_RETURN);
+            }
 
     }
+
+    private void checkOutBook() throws IOException {
+        String title;
+            title = bufferedReader.readLine();
+
+        if (biblioteca.isBookCheckoutSuccessful(title)) {
+            printStream.println(Message.CHECKOUT_BOOK);
+        } else {
+
+            printStream.println(Message.UNSUCCESSFUL_BOOK_CHECKOUT);
+        }
+    }
+
+    private void printBookList() {
+        ArrayList<Book> books = biblioteca.getBookList(false);
+        for (Book book : books) {
+            printStream.println(book);
+        }
+    }
+
+    private void checkOutMovie() throws IOException {
+        String name;
+
+        name = bufferedReader.readLine();
+
+
+        if (biblioteca.isMovieCheckoutSuccessful(name)) {
+            printStream.println(Message.CHECKOUT_MOVIE);
+        } else {
+
+            printStream.println(Message.UNSUCCESSFUL_MOVIE_CHECKOUT);
+
+        }
+    }
+
+    private void printMovieList() {
+        ArrayList<Movie> movies = biblioteca.getMovieList(false);
+        for (Movie movie : movies) {
+            printStream.println(movie);
+        }
+    }
+
 
     public static void main(String[] args) {
         BibliotecaApp bibliotecaApp = new BibliotecaApp(System.out, new Biblioteca(), new Menu(), new BufferedReader(new InputStreamReader(System.in)));
         bibliotecaApp.run();
     }
+
 
 }

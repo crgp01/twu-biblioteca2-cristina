@@ -1,125 +1,147 @@
 package com.twu.biblioteca;
 
+import java.io.BufferedReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 
 public class BibliotecaTest {
 
     private Biblioteca biblioteca;
     public Menu menu;
+    @Mock
+    private BufferedReader bufferedReader;
+    @Mock
+    private PrintStream printStream;
+
 
     @Before
     public void setUp() {
         biblioteca = new Biblioteca();
-        menu = new Menu();
-    }
 
-    @Ignore
-    public void shouldReturnListOfAvailableBooks() {
-        ArrayList<Book> expectedBookList = new ArrayList<Book>() {{
-            add(new Book("Metamorfosis",1960 ,"Franz Kafka", false,"1"));
-            add(new Book("It",1987 ,"Stephen King", false, "1"));
-        }};
-
-        ArrayList<Book> bookList = biblioteca.getListBook(false);
-
-        assertEquals(expectedBookList, bookList);
     }
 
     @Test
+    public void shouldFindABookInBookList() {
+        Book tituloPablo = new Book("Titulo", 2013, "Pablo", false, "1234");
+        Book tituloAndrea = new Book("Titulo 2", 2013, "Andrea", false, "1234");
+        ArrayList<Book> books = new ArrayList<>();
+        books.add(tituloPablo);
+        books.add(tituloAndrea);
 
-    public void booksAvailableCheckout() {
+        assertNotEquals(-1, biblioteca.findBooksByTitle(tituloAndrea.getTitle(), books));
 
-        ArrayList<Book> bookList = biblioteca.getListBook(false);
-
-        assertEquals(biblioteca.getListBook(false), bookList);
     }
 
     @Test
+    public void shouldNotReturnPositionWhenABookIsNotFoundByName() {
+        ArrayList<Book> books = new ArrayList<>();
 
-    public void booksCheckedOut() {
+        assertEquals(-1, biblioteca.findBooksByTitle("", books));
 
-        ArrayList<Book> bookList = biblioteca.getListBook(true);
-
-        assertEquals(biblioteca.getListBook(true), bookList);
     }
 
     @Test
-    public void shouldFindAvailableBook() {
-        int position = 0;
-        String bookTitle = "It";
-        ArrayList<Book> bookList = biblioteca.getListBook(false);
-        position = biblioteca.findBooksByTitle(bookTitle, bookList);
+    public void shouldCheckOutAvailableBook() {
 
-        assertEquals(1, position);
+        boolean isCheckOut = biblioteca.isBookCheckoutSuccessful("It");
+        assertTrue(isCheckOut);
     }
 
     @Test
-    public void shouldCheckOutBook() {
-
-        String bookTitle = "It";
-        boolean isCheckOut = biblioteca.checkoutBook(bookTitle);
-        assertEquals(true, isCheckOut);
-    }
-
-    @Test
-    public void shouldNotCheckOutBook() {
-
-        String bookTitle = "hgh";
-        boolean isNotCheckOut = biblioteca.checkoutBook(bookTitle);
-
-        assertEquals(false, isNotCheckOut);
+    public void shouldNotCheckOutNotAvailableBook() {
+        boolean isCheckOut = biblioteca.isBookCheckoutSuccessful("fdsfds");
+        assertFalse(isCheckOut);
     }
 
     @Test
     public void shouldReturnBook() {
-
-        String bookTitle = "Perfume";
-        String libraryNumber = "1";
-
-        boolean isReturned = biblioteca.returnBook(bookTitle, libraryNumber);
-
-        assertEquals(true, isReturned);
+        boolean isReturned = biblioteca.returnBook("Perfume", "1");
+        assertTrue(isReturned);
 
     }
 
     @Test
-    public void shouldReturnInvalidBook() {
-
-        String bookTitle = "Other book";
-        String libraryNumber = "2";
-
-        boolean isNotReturned = biblioteca.returnBook(bookTitle, libraryNumber);
-
-        assertEquals(false, isNotReturned);
-    }
-
-    @Test
-    public void shouldFindAvailableMovie() {
-    int position=-1;
-
-        String movieName = "Fight Club";
-        ArrayList<Movie> movieList = biblioteca.getListMovies(false);
-        int expectedPosition = biblioteca.findMoviesByName(movieName,movieList);
-
-        assertNotEquals(expectedPosition,position);
+    public void shouldNotReturnBook() {
+        boolean isReturned = biblioteca.returnBook("dsdsf", "1");
+        assertFalse(isReturned);
 
     }
 
     @Test
-    public void shouldCheckOutMovie() {
-        String movieName = "Fight Club";
+    public void shouldGetMovieAvailableList() {
+        ArrayList<Movie> movieList = biblioteca.getMovieList(false);
+        assertNotNull(movieList);
+    }
 
-        boolean wasCheckedOut = biblioteca.checkoutMovie(movieName);
+    @Test
+    public void shouldReturnMoviePositionWhenNameIsFound() {
+        ArrayList<Movie> movies = new ArrayList<>();
+        Movie goodMovie = new Movie("Best Movie", 2015, "Awesome director", 10, false);
+        Movie averageMovie = new Movie("Average Movie", 2015, "Good director", 6, false);
+        movies.add(goodMovie);
+        movies.add(averageMovie);
 
-        assertEquals(true,wasCheckedOut);
+
+        assertEquals(-1, biblioteca.findMoviesByName("Other movie", movies));
 
     }
 
+    @Test
+    public void shouldReturnMoviePositionWhenListIsNull() {
+        ArrayList<Movie> movies = new ArrayList<>();
+        Movie goodMovie = new Movie("Best Movie", 2015, "Awesome director", 10, false);
+        Movie averageMovie = new Movie("Average Movie", 2015, "Good director", 6, false);
+        movies.add(goodMovie);
+        movies.add(averageMovie);
 
+        assertNotEquals(-1, biblioteca.findMoviesByName(goodMovie.getName(), movies));
+
+    }
+
+    @Test
+    public void shouldCheckOutAvailableMovie() {
+        boolean isCheckOut = biblioteca.isMovieCheckoutSuccessful("Fight Club");
+        assertTrue(isCheckOut);
+    }
+
+    @Test
+    public void shouldNotCheckOutMovie() {
+        boolean isCheckOut = biblioteca.isMovieCheckoutSuccessful("fsfdf");
+        assertFalse(isCheckOut);
+    }
+
+    @Test
+    public void shouldVerifyUserCredentials() {
+        User primerUsuario = new User("PrimerUsuario", "usuario@1.com", "0937342732", "111-1111", "1234", false);
+        int userPosition = biblioteca.findUserByLibraryNameAndPassword(primerUsuario.getLibraryNumber(), primerUsuario.getPassword());
+        assertNotEquals(-1, userPosition);
+    }
+
+    @Test
+    public void shouldLogInAUser() {
+        String libraryNumber = "111-1111";
+        String password = "1234";
+        assertTrue(biblioteca.loginUser(libraryNumber, password));
+    }
+
+    @Test
+    public void shouldNotLoginNotExistingUser() {
+        String libraryNumber = "000-0000";
+        String password = "xxxx";
+        assertFalse(biblioteca.loginUser(libraryNumber, password));
+
+    }
+
+    @Test
+    public void shouldReturnIfUserIsLogged() {
+    
+
+    }
 }

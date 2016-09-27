@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.*;
 
@@ -27,10 +28,14 @@ public class BibliotecaAppTest {
     private Menu menu;
     @Mock
     private BufferedReader bufferedReader;
-    @Mock
+
     private BibliotecaApp bibliotecaApp;
     @Mock
     private Movie movie;
+    @Mock
+    private Book book;
+    @Mock
+    private User user;
 
     @Before
     public void setUp() {
@@ -66,7 +71,7 @@ public class BibliotecaAppTest {
         books.add(tituloPablo);
         books.add(tituloAndrea);
 
-        when(biblioteca.getListBook(anyBoolean())).thenReturn(books);
+        when(biblioteca.getBookList(anyBoolean())).thenReturn(books);
 
         bibliotecaApp.run();
 
@@ -78,7 +83,7 @@ public class BibliotecaAppTest {
     public void shouldNotPrintBookListWhenOptionIs1() throws IOException {
         when(bufferedReader.readLine()).thenReturn("2");
         bibliotecaApp.run();
-        verify(biblioteca, never()).getListBook(false);
+        verify(biblioteca, never()).getBookList(false);
     }
 
     @Test
@@ -99,45 +104,21 @@ public class BibliotecaAppTest {
         verify(bufferedReader).readLine();
 
     }
-
     @Test
-    public void shouldFindABookInBookList() {
-        Book tituloPablo = new Book("Titulo", 2013, "Pablo", false, "1234");
-        Book tituloAndrea = new Book("Titulo 2", 2013, "Andrea", false, "1234");
-        ArrayList<Book> books = new ArrayList<>();
-        books.add(tituloPablo);
-        books.add(tituloAndrea);
-
-        assertNotEquals(-1, biblioteca.findBooksByTitle(tituloAndrea.getTitle(), books));
-
-    }
-
-    @Test
-    public void shouldCheckOutAvailableBook() throws IOException {
-        Book tituloPablo = new Book("Titulo", 2013, "Pablo", false, "1234");
-        Book tituloAndrea = new Book("Titulo 2", 2013, "Andrea", false, "1234");
-        ArrayList<Book> books = new ArrayList<>();
-        books.add(tituloPablo);
-        books.add(tituloAndrea);
+    public void shouldCheckedBook() throws IOException {
 
         when(bufferedReader.readLine()).thenReturn("2");
-        when(biblioteca.checkoutBook(bufferedReader.readLine())).thenReturn(true);
+        when(biblioteca.isBookCheckoutSuccessful(bufferedReader.readLine())).thenReturn(true);
         bibliotecaApp.run();
-
         verify(printStream).println(Message.CHECKOUT_BOOK);
 
     }
 
     @Test
     public void shouldNotCheckedBook() throws IOException {
-        Book tituloPablo = new Book("Titulo", 2013, "Pablo", true, "1234");
-        Book tituloAndrea = new Book("Titulo 2", 2013, "Andrea", false, "1234");
-        ArrayList<Book> books = new ArrayList<>();
-        books.add(tituloPablo);
-        books.add(tituloAndrea);
 
         when(bufferedReader.readLine()).thenReturn("2");
-        when(biblioteca.checkoutBook(bufferedReader.readLine())).thenReturn(false);
+        when(biblioteca.isBookCheckoutSuccessful(bufferedReader.readLine())).thenReturn(false);
         bibliotecaApp.run();
 
         verify(printStream).println(Message.UNSUCCESSFUL_BOOK_CHECKOUT);
@@ -146,9 +127,6 @@ public class BibliotecaAppTest {
 
     @Test
     public void shouldReturnBook() throws IOException {
-        Book tituloPablo = new Book("Titulo", 2013, "Pablo", true, "1234");
-        ArrayList<Book> books = new ArrayList<>();
-        books.add(tituloPablo);
 
         when(bufferedReader.readLine()).thenReturn("3");
         when(biblioteca.returnBook(bufferedReader.readLine(), "1")).thenReturn(true);
@@ -160,10 +138,6 @@ public class BibliotecaAppTest {
 
     @Test
     public void shouldNotReturnBook() throws IOException {
-
-        Book tituloAndrea = new Book("Titulo 2", 2013, "Andrea", true, "1234");
-        ArrayList<Book> books = new ArrayList<>();
-        books.add(tituloAndrea);
 
         when(bufferedReader.readLine()).thenReturn("3");
         when(biblioteca.returnBook(bufferedReader.readLine(), "1")).thenReturn(false);
@@ -182,7 +156,7 @@ public class BibliotecaAppTest {
         movies.add(goodMovie);
         movies.add(averageMovie);
 
-        when(biblioteca.getListMovies(anyBoolean())).thenReturn(movies);
+        when(biblioteca.getMovieList(anyBoolean())).thenReturn(movies);
 
         bibliotecaApp.run();
 
@@ -203,6 +177,7 @@ public class BibliotecaAppTest {
         
     }
 
+
     @Test
     public void shouldCheckOutAvailableMovie() throws IOException {
         when(bufferedReader.readLine()).thenReturn("5");
@@ -212,7 +187,7 @@ public class BibliotecaAppTest {
         movies.add(goodMovie);
         movies.add(averageMovie);
 
-        when(biblioteca.checkoutMovie(bufferedReader.readLine())).thenReturn(true);
+        when(biblioteca.isMovieCheckoutSuccessful(bufferedReader.readLine())).thenReturn(true);
         bibliotecaApp.run();
 
         verify(printStream).println(Message.CHECKOUT_MOVIE);
@@ -229,9 +204,20 @@ public class BibliotecaAppTest {
 
 
         when(bufferedReader.readLine()).thenReturn("5");
-        when(biblioteca.checkoutMovie("Other movie")).thenReturn(false);
+        when(biblioteca.isMovieCheckoutSuccessful("Other movie")).thenReturn(false);
         bibliotecaApp.run();
 
         verify(printStream).println(Message.UNSUCCESSFUL_MOVIE_CHECKOUT);
     }
+
+//    @Test
+//    public void shouldNLoginUser() {
+//            User juanPerezUser = new User("JuanPerez","juan@perez.com","0937342732","111-1111","1234",false);
+//
+//            when(biblioteca.loginUser(anyString(),anyString()).thenReturn(true);
+//
+//            verify(biblioteca,never()).loginUser(false);
+//
+//    }
+
 }

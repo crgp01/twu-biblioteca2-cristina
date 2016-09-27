@@ -1,9 +1,5 @@
 package com.twu.biblioteca;
 
-import java.io.PrintStream;
-import java.util.Scanner;
-import java.util.ArrayList;
-
 public class Menu {
 
     public String MenuOptions;
@@ -17,6 +13,8 @@ public class Menu {
                 "1 - Books List\n" +
                 "2 - Checkout Book\n" +
                 "3 - Return Book\n" +
+                "4 - Movie List\n" +
+                "5 - Checkout Movie\n" +
                 "0 - Quit\n" +
                 "";
     }

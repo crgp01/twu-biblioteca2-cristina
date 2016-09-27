@@ -26,11 +26,15 @@ public class MovieTest {
         String whitespaceName = String.format("%-20s", "Best Movie");
         String whitespaceDirector = String.format("%-20s", "Awesome director");
         String whitespaceYear = String.format("%-20s", 2015);
+        String whitespaceRating = String.format("%-20s", 10);
 
-        String expected = String.format("%s | %s | %s\n", whitespaceName, whitespaceDirector, whitespaceYear, movie.movieRating);
+
+        String expected = String.format("%s | %s | %s\n", whitespaceName, whitespaceDirector, whitespaceYear, whitespaceRating);
 
 
         assertEquals(expected, movieDetails);
     }
+
+
 
 }

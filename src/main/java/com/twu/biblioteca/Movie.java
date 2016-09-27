@@ -7,12 +7,10 @@ public class Movie {
     private String name;
     private int year;
     private String director;
-    public int movieRating;
-    public  boolean isCheckedOut =false;
+    private int movieRating;
+    private boolean isCheckedOut =false;
 
-
-
-    public Movie(String name, int year, String director, int movieRating, boolean isChecked ) {
+    public Movie(String name, int year, String director, int movieRating, boolean isCheckedOut ) {
 
         this.name = name;
         this.year = year;
@@ -20,7 +18,6 @@ public class Movie {
         this.movieRating = movieRating;
         this.isCheckedOut = isCheckedOut;
     }
-
     public Movie() {
 
     }
@@ -29,12 +26,13 @@ public class Movie {
         String whitespaceName = String.format("%-20s", name);
         String whitespaceDirector = String.format("%-20s", director);
         String whitespaceYear = String.format("%-20s", year);
+        String whitespaceRating = String.format("%-20s", movieRating);
 
 
         return String.format("%s | %s | %s\n",
                 whitespaceName,
                 whitespaceDirector,
-                whitespaceYear, movieRating);
+                whitespaceYear, whitespaceRating);
     }
 
     public boolean isCheckedOut() {
