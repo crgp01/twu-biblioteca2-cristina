@@ -15,6 +15,10 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public boolean isLogged() {
+        return isLogged;
+    }
     public void setLogged(boolean logged) {
         isLogged = logged;
     }

@@ -15,6 +15,8 @@ public class Menu {
                 "3 - Return Book\n" +
                 "4 - Movie List\n" +
                 "5 - Checkout Movie\n" +
+                "6 - Log In\n" +
+                "7 - User Information\n" +
                 "0 - Quit\n" +
                 "";
     }

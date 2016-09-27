@@ -25,47 +25,52 @@ public class BibliotecaApp {
     public void run() {
         printStream.println(Message.WELCOME);
         printStream.println(menu.getMenu());
-        String option = "";
 
-        option = readOptions();
-        menuOptions(option);
+        String option = "";
+//        while (!option.equals("0")) {
+            option = readOptions();
+
+            menuOptions(option);
+//        }
 
     }
 
     private void menuOptions(String option) {
         option = option == null ? "" : option;
 
-            try {
-                    switch (option) {
-                        case "0":
-                            break;
+        try {
+            switch (option) {
+                case "0":
+                    break;
 
-                        case "1":
-                            printBookList();
-                            break;
+                case "1":
+                    printBookList();
+                    break;
 
-                        case "2":
-                            checkOutBook();
-                            break;
-                        case "3":
-                            returnBook();
-                            break;
-
-                        case "4":
-                            printMovieList();
-                            break;
-                        case "5":
-                            checkOutMovie();
-                            break;
-
-                        default:
-                            printInvalidOption();
-                            break;
-                    }
-
-            } catch (IOException e) {
-                e.printStackTrace();
+                case "2":
+                    checkOutBook();
+                    break;
+                case "3":
+                    returnBook();
+                    break;
+                case "4":
+                    printMovieList();
+                    break;
+                case "5":
+                    checkOutMovie();
+                    break;
+                case "6":
+                    loginUser();
+                case "7":
+                    printUserInformation();
+                default:
+                    printInvalidOption();
+                    break;
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -78,32 +83,6 @@ public class BibliotecaApp {
         }
     }
 
-    private void printInvalidOption() {
-        printStream.println(Message.INVALID_OPTION);
-    }
-
-    private void returnBook() throws IOException {
-
-            if (biblioteca.returnBook(bufferedReader.readLine(), "1")) {
-                printStream.println(Message.SUCCESSFUL_RETURN);
-            } else {
-                printStream.println(Message.UNSUCCESSFUL_RETURN);
-            }
-
-    }
-
-    private void checkOutBook() throws IOException {
-        String title;
-            title = bufferedReader.readLine();
-
-        if (biblioteca.isBookCheckoutSuccessful(title)) {
-            printStream.println(Message.CHECKOUT_BOOK);
-        } else {
-
-            printStream.println(Message.UNSUCCESSFUL_BOOK_CHECKOUT);
-        }
-    }
-
     private void printBookList() {
         ArrayList<Book> books = biblioteca.getBookList(false);
         for (Book book : books) {
@@ -111,18 +90,37 @@ public class BibliotecaApp {
         }
     }
 
-    private void checkOutMovie() throws IOException {
-        String name;
-
-        name = bufferedReader.readLine();
-
-
-        if (biblioteca.isMovieCheckoutSuccessful(name)) {
-            printStream.println(Message.CHECKOUT_MOVIE);
+    private void checkOutBook() throws IOException {
+        if (!hasUserLogin()) {
+            printStream.println(Message.LOGIN_REQUIRED);
         } else {
+            printStream.println("Book name:");
+            String title = bufferedReader.readLine();
 
-            printStream.println(Message.UNSUCCESSFUL_MOVIE_CHECKOUT);
+            if (biblioteca.isBookCheckoutSuccessful(title)) {
+                printStream.println(Message.CHECKOUT_BOOK);
+            } else {
 
+                printStream.println(Message.UNSUCCESSFUL_BOOK_CHECKOUT);
+            }
+        }
+    }
+
+    private boolean hasUserLogin() {
+        return biblioteca.getUserLogged()!= null && biblioteca.getUserLogged().isLogged();
+    }
+
+    private void returnBook() throws IOException {
+        if (hasUserLogin()) {
+            printStream.println(Message.LOGIN_REQUIRED);
+        } else {
+            printStream.println("Book name:");
+
+            if (biblioteca.returnBook(bufferedReader.readLine(), "1")) {
+                printStream.println(Message.SUCCESSFUL_RETURN);
+            } else {
+                printStream.println(Message.UNSUCCESSFUL_RETURN);
+            }
         }
     }
 
@@ -131,6 +129,60 @@ public class BibliotecaApp {
         for (Movie movie : movies) {
             printStream.println(movie);
         }
+    }
+
+    private void checkOutMovie() throws IOException {
+        if (hasUserLogin()) {
+            printStream.println(Message.LOGIN_REQUIRED);
+        } else {
+            printStream.println("Movie name:");
+            String name = bufferedReader.readLine();
+
+            if (biblioteca.isMovieCheckoutSuccessful(name)) {
+                printStream.println(Message.CHECKOUT_MOVIE);
+            } else {
+
+                printStream.println(Message.UNSUCCESSFUL_MOVIE_CHECKOUT);
+
+            }
+        }
+    }
+
+    private boolean loginUser() throws IOException {
+        printStream.println("Library number:");
+        String libraryNumber = bufferedReader.readLine();
+
+        printStream.println("Password:");
+        String password = bufferedReader.readLine();
+
+        boolean userIsLogged = biblioteca.loginUser(libraryNumber, password);
+
+        return isLoginSuccessful(userIsLogged);
+
+    }
+
+    private boolean isLoginSuccessful(boolean userIsLogged) {
+        if (userIsLogged) {
+            printStream.println(Message.LOGIN_SUCCESSFUL);
+            return true;
+        } else {
+            printStream.println(Message.LOGIN_UNSUCCESSFUL);
+            return false;
+        }
+    }
+
+    private void printUserInformation() {
+
+        if (hasUserLogin()) {
+            printStream.println(biblioteca.getUserLogged().returnUserInformation());
+        } else {
+            printStream.println(Message.LOGIN_REQUIRED);
+        }
+    }
+
+
+    private void printInvalidOption() {
+        printStream.println(Message.INVALID_OPTION);
     }
 
 

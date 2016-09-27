@@ -141,7 +141,12 @@ public class BibliotecaTest {
 
     @Test
     public void shouldReturnIfUserIsLogged() {
-    
+            String libraryNumber = "111-1111";
+            String password = "1234";
 
-    }
+            boolean isUserLogged = biblioteca.loginUser(libraryNumber,password);
+            assertTrue(isUserLogged);
+
+        }
+
 }

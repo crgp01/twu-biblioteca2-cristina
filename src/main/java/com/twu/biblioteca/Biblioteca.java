@@ -12,6 +12,10 @@ public class Biblioteca {
     private User userLogged;
 
 
+    public User getUserLogged() {
+        return userLogged;
+    }
+
     public Biblioteca() {
         books = new ArrayList<Book>() {{
             add(new Book("Metamorfosis", 1960, "Franz Kafka", false, "1"));
@@ -32,6 +36,7 @@ public class Biblioteca {
 
     }
 
+
     public ArrayList<Book> getBookList(boolean condition) {
         ArrayList<Book> bookList = new ArrayList<Book>();
 
@@ -42,7 +47,6 @@ public class Biblioteca {
         }
         return bookList;
     }
-
 
     public int findBooksByTitle(String bookTitle, ArrayList<Book> books) {
         int i = 0;
@@ -128,6 +132,7 @@ public class Biblioteca {
         }
     }
 
+
     public int findUserByLibraryNameAndPassword(String libraryNumber, String password) {
         int i = 0;
         int position = -1;
@@ -142,7 +147,6 @@ public class Biblioteca {
         return position;
     }
 
-
     public boolean loginUser(String libraryNumber, String password) {
         int position = findUserByLibraryNameAndPassword(libraryNumber, password);
         if (position != - 1) {
@@ -152,6 +156,10 @@ public class Biblioteca {
         }
         return false;
     }
+
+
+
+
 
 }
 
