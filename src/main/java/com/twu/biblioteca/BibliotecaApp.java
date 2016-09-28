@@ -27,11 +27,11 @@ public class BibliotecaApp {
         printStream.println(menu.getMenu());
 
         String option = "";
-//        while (!option.equals("0")) {
+        while (!option.equals("0")) {
             option = readOptions();
 
             menuOptions(option);
-//        }
+        }
 
     }
 
@@ -111,7 +111,7 @@ public class BibliotecaApp {
     }
 
     private void returnBook() throws IOException {
-        if (hasUserLogin()) {
+        if (!hasUserLogin()) {
             printStream.println(Message.LOGIN_REQUIRED);
         } else {
             printStream.println("Book name:");
@@ -132,7 +132,7 @@ public class BibliotecaApp {
     }
 
     private void checkOutMovie() throws IOException {
-        if (hasUserLogin()) {
+        if (!hasUserLogin()) {
             printStream.println(Message.LOGIN_REQUIRED);
         } else {
             printStream.println("Movie name:");
