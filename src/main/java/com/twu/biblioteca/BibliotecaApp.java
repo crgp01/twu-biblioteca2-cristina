@@ -27,11 +27,11 @@ public class BibliotecaApp {
         printStream.println(menu.getMenu());
 
         String option = "";
-       while (!option.equals("0")) {
+//       while (!option.equals("0")) {
             option = readOptions();
 
             menuOptions(option);
-        }
+//        }
     }
 
     private void menuOptions(String option) {
