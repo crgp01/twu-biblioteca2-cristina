@@ -23,8 +23,6 @@ public class User {
         isLogged = logged;
     }
 
-
-
     public User(String userName, String email, String phone, String libraryNumber, String password, boolean isLogged) {
         this.userName = userName;
         this.email = email;
@@ -47,7 +45,6 @@ public class User {
                 whitespaceUserName,
                 whitespaceEmail,
                 whitespacePhone);
-
     }
 
     public boolean verifyUserCredentials(String libraryNumberInput, String passwordInput){

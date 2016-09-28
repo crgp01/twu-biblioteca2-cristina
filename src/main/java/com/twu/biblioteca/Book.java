@@ -37,7 +37,6 @@ public class Book {
 
     }
 
-
     public String toString() {
         String whitespaceTitle = String.format("%-20s", title);
         String whitespaceAuthor = String.format("%-20s", author);
@@ -47,6 +46,4 @@ public class Book {
                 whitespaceAuthor,
                 year);
     }
-
-
 }

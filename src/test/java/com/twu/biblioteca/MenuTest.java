@@ -6,18 +6,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.io.PrintStream;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MenuTest {
 
     @Mock
     private Menu menu;
-    @Mock
-    private BibliotecaApp bibliotecaApp;
+
     @Before
     public void setUp() {
 

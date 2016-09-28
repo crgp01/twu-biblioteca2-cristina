@@ -7,7 +7,6 @@ public class Menu {
     public Menu() {
 
     }
-
     public String getMenu() {
         return MenuOptions = "Choose an option:\n" +
                 "1 - Books List\n" +

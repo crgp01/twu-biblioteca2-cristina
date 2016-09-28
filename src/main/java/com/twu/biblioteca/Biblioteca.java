@@ -1,7 +1,5 @@
 package com.twu.biblioteca;
 
-import org.mockito.stubbing.OngoingStubbing;
-
 import java.util.ArrayList;
 
 public class Biblioteca {
@@ -10,7 +8,6 @@ public class Biblioteca {
     private ArrayList<Movie> movies = new ArrayList<Movie>();
     private ArrayList<User> users = new ArrayList<User>();
     private User userLogged;
-
 
     public User getUserLogged() {
         return userLogged;
@@ -132,7 +129,6 @@ public class Biblioteca {
         }
     }
 
-
     public int findUserByLibraryNameAndPassword(String libraryNumber, String password) {
         int i = 0;
         int position = -1;
@@ -156,10 +152,6 @@ public class Biblioteca {
         }
         return false;
     }
-
-
-
-
 
 }
 

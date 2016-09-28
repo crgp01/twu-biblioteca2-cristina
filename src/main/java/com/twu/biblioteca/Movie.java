@@ -1,7 +1,5 @@
 package com.twu.biblioteca;
 
-import java.sql.Timestamp;
-
 public class Movie {
 
     private String name;
@@ -9,6 +7,17 @@ public class Movie {
     private String director;
     private int movieRating;
     private boolean isCheckedOut =false;
+
+    public boolean isCheckedOut() {
+        return isCheckedOut;
+    }
+    public void setCheckedOut(boolean checkedOut) {
+        isCheckedOut = checkedOut;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public Movie(String name, int year, String director, int movieRating, boolean isCheckedOut ) {
 
@@ -18,6 +27,7 @@ public class Movie {
         this.movieRating = movieRating;
         this.isCheckedOut = isCheckedOut;
     }
+
     public Movie() {
 
     }
@@ -33,17 +43,6 @@ public class Movie {
                 whitespaceName,
                 whitespaceDirector,
                 whitespaceYear, whitespaceRating);
-    }
-
-    public boolean isCheckedOut() {
-        return isCheckedOut;
-    }
-    public void setCheckedOut(boolean checkedOut) {
-        isCheckedOut = checkedOut;
-    }
-
-    public String getName() {
-        return name;
     }
 }
 

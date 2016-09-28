@@ -1,25 +1,18 @@
 package com.twu.biblioteca;
 
-import java.io.BufferedReader;
-import java.io.PrintStream;
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.io.BufferedReader;
+import java.io.PrintStream;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
 
 public class BibliotecaTest {
 
     private Biblioteca biblioteca;
-    public Menu menu;
-    @Mock
-    private BufferedReader bufferedReader;
-    @Mock
-    private PrintStream printStream;
-
 
     @Before
     public void setUp() {

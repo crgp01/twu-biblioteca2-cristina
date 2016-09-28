@@ -27,12 +27,11 @@ public class BibliotecaApp {
         printStream.println(menu.getMenu());
 
         String option = "";
-        while (!option.equals("0")) {
+       while (!option.equals("0")) {
             option = readOptions();
 
             menuOptions(option);
         }
-
     }
 
     private void menuOptions(String option) {
@@ -41,6 +40,7 @@ public class BibliotecaApp {
         try {
             switch (option) {
                 case "0":
+                    bufferedReader.close();
                     break;
 
                 case "1":
@@ -60,7 +60,7 @@ public class BibliotecaApp {
                     checkOutMovie();
                     break;
                 case "6":
-                    loginUser();
+                    verifyUserCredentials();
                 case "7":
                     printUserInformation();
                 default:
@@ -148,7 +148,7 @@ public class BibliotecaApp {
         }
     }
 
-    private boolean loginUser() throws IOException {
+    public boolean verifyUserCredentials() throws IOException {
         printStream.println("Library number:");
         String libraryNumber = bufferedReader.readLine();
 
@@ -161,7 +161,7 @@ public class BibliotecaApp {
 
     }
 
-    private boolean isLoginSuccessful(boolean userIsLogged) {
+    public boolean isLoginSuccessful(boolean userIsLogged) {
         if (userIsLogged) {
             printStream.println(Message.LOGIN_SUCCESSFUL);
             return true;

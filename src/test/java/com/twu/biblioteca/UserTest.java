@@ -14,12 +14,6 @@ public class UserTest {
     @Mock
     User user;
 
-    @Mock
-    Biblioteca biblioteca;
-
-    @Mock
-    BibliotecaApp bibliotecaApp;
-
     @Before
     public void setUp(){
 

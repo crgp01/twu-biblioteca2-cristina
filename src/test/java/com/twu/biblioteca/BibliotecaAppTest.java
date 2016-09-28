@@ -235,5 +235,18 @@ public class BibliotecaAppTest {
 
     }
 
+    @Test
+    public void shouldReturnSuccessfulLogin() throws IOException {
+        User usuario = new User("JuanPerez", "juan@perez.com", "0937342732", "111-1111", "1234", true);
+        assertTrue(bibliotecaApp.isLoginSuccessful(usuario.isLogged()));
+
+    }
+
+    @Test
+    public void shouldNotReturnSuccessfulLogin() throws IOException {
+        User usuario = new User("JuanPerez", "juan@perez.com", "0937342732", "111-1111", "1234", false);
+        assertFalse(bibliotecaApp.isLoginSuccessful(usuario.isLogged()));
+
+    }
 
 }
